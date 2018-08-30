@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { Component } from "react";
 import styled from "styled-components";
+import onClickOutside from "react-onclickoutside";
 import styledMap from "styled-map";
 import catImg from "./img/cat.png";
 
@@ -21,6 +22,12 @@ const toggleColorMainText = {
   disable: "#b3b3b3"
 };
 
+const toggleHoverCard = {
+  default: "none",
+  hover: "#2ea8e6",
+  hoverActive: "#e62e7a"
+};
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,7 +38,11 @@ const Container = styled.div`
 
 const Title = styled.p`
   font-size: 16px;
-  color: ${styledMap(toggleColorText)};
+  color: ${styledMap({
+    default: "#666666",
+    disable: "#b3b3b3",
+    active: "#e62e7a"
+  })};
   line-height: 20px;
   background-color: white;
   margin: 0 0 0 50px;
@@ -125,6 +136,10 @@ const Price = styled.div`
     disable: "#b3b3b3"
   })};
   color: white;
+
+  &:hover {
+    background-color: ${styledMap(toggleHoverCard)};
+  }
 `;
 
 const PriceNumb = styled.span`
@@ -168,7 +183,9 @@ class Card extends Component {
   constructor() {
     super();
     this.state = {
-      isActive: null
+      isActive: null,
+      isHover: false,
+      title: "Сказочное заморское яство"
     };
   }
 
@@ -176,6 +193,10 @@ class Card extends Component {
     const { isActive } = this.props;
     this.setState({ isActive });
   }
+
+  handleClickOutside = () => {
+    this.setState({ isHover: true });
+  };
 
   setDeclensionsWords = count => {
     let totalResult;
@@ -200,8 +221,12 @@ class Card extends Component {
 
   changeActiveState = () => {
     const { isDisabled } = this.props;
+
     if (!isDisabled) {
-      this.setState(prevState => ({ isActive: !prevState.isActive }));
+      this.setState(prevState => ({
+        isActive: !prevState.isActive,
+        isHover: false
+      }));
     }
   };
 
@@ -215,7 +240,7 @@ class Card extends Component {
       activeText,
       isDisabled
     } = this.props;
-    const { isActive } = this.state;
+    const { isActive, isHover } = this.state;
 
     return (
       <Wrapper>
@@ -253,7 +278,7 @@ class Card extends Component {
             </React.Fragment>
           ) : isActive ? (
             <React.Fragment>
-              <Title active> Сказочное заморское яство </Title>{" "}
+              <Title active> Котэ не одобряет? </Title>
               <Main active>
                 <NameCard>
                   <MainTitle>Нямнушка</MainTitle>
@@ -267,15 +292,24 @@ class Card extends Component {
                   </Total>
                 </NameCard>
                 <CardImg src={catImg} />
-                <Price active>
-                  <PriceNumb>
-                    {" "}
-                    {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                  </PriceNumb>
-                  <PriceDesc> КГ </PriceDesc>
-                </Price>
+                {isHover ? (
+                  <Price active hoverActive>
+                    <PriceNumb>
+                      {" "}
+                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
+                    </PriceNumb>
+                    <PriceDesc> КГ </PriceDesc>
+                  </Price>
+                ) : (
+                  <Price active>
+                    <PriceNumb>
+                      {" "}
+                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
+                    </PriceNumb>
+                    <PriceDesc> КГ </PriceDesc>
+                  </Price>
+                )}
               </Main>
-              <DescCard>{activeText}</DescCard>
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -293,24 +327,40 @@ class Card extends Component {
                   </Total>
                 </NameCard>
                 <CardImg src={catImg} />
-                <Price>
-                  <PriceNumb>
-                    {" "}
-                    {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                  </PriceNumb>
-                  <PriceDesc> КГ </PriceDesc>
-                </Price>
+                {isHover ? (
+                  <Price hover>
+                    <PriceNumb>
+                      {" "}
+                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
+                    </PriceNumb>
+                    <PriceDesc> КГ </PriceDesc>
+                  </Price>
+                ) : (
+                  <Price>
+                    <PriceNumb>
+                      {" "}
+                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
+                    </PriceNumb>
+                    <PriceDesc> КГ </PriceDesc>
+                  </Price>
+                )}
               </Main>
-              <DescCard>
-                Чего сидишь? Порадуй котэ,{" "}
-                <BtnBuy onClick={this.changeActiveState}> купи </BtnBuy>
-              </DescCard>
             </React.Fragment>
           )}
         </Container>
+        {!isDisabled ? (
+          isActive ? (
+            <DescCard>{activeText}</DescCard>
+          ) : (
+            <DescCard>
+              Чего сидишь? Порадуй котэ,{" "}
+              <BtnBuy onClick={this.changeActiveState}> купи </BtnBuy>
+            </DescCard>
+          )
+        ) : null}
       </Wrapper>
     );
   }
 }
 
-export default Card;
+export default onClickOutside(Card);
