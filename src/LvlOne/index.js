@@ -379,7 +379,7 @@ export default () => (
                 Twitter Demo
               </LinkTo>
               (API, React, Styled Components, Helmet, React Router 4 и другое)
-              <LinkTo href="https://github.com/TchernyavskyDaniil/trello-demo">
+              <LinkTo href="https://github.com/TchernyavskyDaniil/trello-demo/tree/api">
                 Trello Demo
               </LinkTo>
               (Fake API json - server, React, Styled Components, React Router 4

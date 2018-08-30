@@ -1,10 +1,5 @@
-@font-face {
-  font-family: "Exo2";
-  src: local("Exo2-Thinn"), url(./fonts/Exo2-Thinn.otf) format("opentype");
-}
-
 body {
   margin: 0;
   padding: 0;
-  font-family: "Exo2", "Arial", "Helvetica", "Garuda", sans-serif;
+  font-family: 'Trebuchet MS', "Exo2", "Arial", "Helvetica", "Garuda", sans-serif;
 }
