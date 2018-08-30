@@ -6,16 +6,44 @@ import bgImg from "./img/bg.png";
 
 const Container = styled.div`
   position: relative;
-  height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &:before {
+    position: absolute;
+    width: 100%;
+    height: 20%;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    content: "";
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  }
+
+  &:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 30%;
+    content: "";
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  }
 `;
 
 const Menu = styled.section`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1120px;
   margin: 10px;
+  width: 1120px;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: 1024px) {
+    width: 95%;
+  }
 `;
 
 const Title = styled.h1`
@@ -30,11 +58,30 @@ const Cards = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 0;
+
+  @media screen and (max-width: 1024px) {
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const CardContainer = styled.li`
   list-style: none;
+
+  @media screen and (max-width: 1024px) {
+    margin-right: 20px;
+  }
+
+  @media screen and (max-width: 600px) {
+    margin-right: 0;
+  }
 `;
 
 class LvlTwo extends Component {

@@ -135,6 +135,10 @@ const PriceDesc = styled.span``;
 
 const Wrapper = styled.div`
   width: 320px;
+
+  @media screen and (max-width: 350px) {
+    width: 300px;
+  }
 `;
 
 const DescCard = styled.div`
