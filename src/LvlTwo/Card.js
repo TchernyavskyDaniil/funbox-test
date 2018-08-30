@@ -184,14 +184,13 @@ class Card extends Component {
     super();
     this.state = {
       isActive: null,
-      isHover: false,
-      title: "Сказочное заморское яство"
+      isHover: false
     };
   }
 
   componentWillMount() {
     const { isActive } = this.props;
-    this.setState({ isActive });
+    this.setState({ isActive, isHover: true });
   }
 
   handleClickOutside = () => {
