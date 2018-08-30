@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 import Card from "./Card";
@@ -34,50 +34,83 @@ const Cards = styled.ul`
 `;
 
 const CardContainer = styled.li`
-  text-decoration: none;
+  list-style: none;
 `;
 
-export default () => (
-  <React.Fragment>
-    <Helmet bodyAttributes={{ style: `background-image : url(${bgImg})` }}>
-      <title>Level II</title>
-    </Helmet>
-    <Container>
-      <Menu>
-        <Title> Ты сегодня покормил кота ? </Title>
-        <Cards>
-          <CardContainer>
-            <Card
-              name="фуа-гра"
-              count={10}
-              mouses={1}
-              isGood={false}
-              price={0.5}
-              isActive={false}
-            />
-          </CardContainer>
-          <CardContainer>
-            <Card
-              name="рыбой"
-              count={40}
-              mouses={2}
-              isGood={false}
-              price={2}
-              isActive
-            />
-          </CardContainer>
-          <CardContainer>
-            <Card
-              name="курой"
-              count={100}
-              mouses={5}
-              isGood
-              price={5}
-              isActive={false}
-            />
-          </CardContainer>
-        </Cards>
-      </Menu>
-    </Container>
-  </React.Fragment>
-);
+class LvlTwo extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cards: [
+        {
+          id: 1,
+          name: "фуа-гра",
+          count: 10,
+          mouses: 1,
+          isGood: false,
+          price: 0.5,
+          isActive: false,
+          isDisabled: false,
+          activeText: "Печень утки разварная с артишоками."
+        },
+        {
+          id: 2,
+          name: "рыбой",
+          count: 40,
+          mouses: 2,
+          isGood: false,
+          price: 2,
+          isActive: true,
+          isDisabled: false,
+          activeText: "Головы щучьи с чесноком да свежайшая семгушка."
+        },
+        {
+          id: 3,
+          name: "курой",
+          count: 100,
+          mouses: 5,
+          isGood: true,
+          price: 5,
+          isActive: false,
+          isDisabled: true,
+          activeText: "Печень утки разварная с артишоками."
+        }
+      ]
+    };
+  }
+
+  render() {
+    const { cards } = this.state;
+
+    return (
+      <React.Fragment>
+        <Helmet bodyAttributes={{ style: `background-image : url(${bgImg})` }}>
+          <title>Level II</title>
+        </Helmet>
+        <Container>
+          <Menu>
+            <Title> Ты сегодня покормил кота ? </Title>
+            <Cards>
+              {cards.map(card => (
+                <CardContainer key={card.id}>
+                  <Card
+                    name={card.name}
+                    count={card.count}
+                    mouses={card.mouses}
+                    isGood={card.isGood}
+                    price={card.price}
+                    isActive={card.isActive}
+                    activeText={card.activeText}
+                    isDisabled={card.isDisabled}
+                  />
+                </CardContainer>
+              ))}
+            </Cards>
+          </Menu>
+        </Container>
+      </React.Fragment>
+    );
+  }
+}
+
+export default LvlTwo;
