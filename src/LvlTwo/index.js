@@ -5,11 +5,11 @@ import Card from "./Card";
 import bgImg from "./img/bg.png";
 
 const Container = styled.div`
-  position: relative;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   &:before {
     position: absolute;
@@ -18,7 +18,7 @@ const Container = styled.div`
     bottom: 0;
     left: 0;
     top: 0;
-    z-index: -1;
+    z-index: -10;
     content: "";
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   }
@@ -27,11 +27,20 @@ const Container = styled.div`
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: -1;
+    z-index: -10;
     width: 100%;
     height: 30%;
     content: "";
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  }
+  
+  @media screen and (max-width: 1024px) {
+    height: 100vh;
+    position: relative;
+  }
+  
+  @media screen and (max-width: 710px) {
+    height: 100%;
   }
 `;
 
