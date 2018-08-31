@@ -89,6 +89,9 @@ const MainTitle = styled.h2`
   font-size: 40px;
   line-height: 48px;
   font-weight: 800;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
   margin: 0;
   color: ${styledMap(toggleColorMainText)};
 `;
@@ -96,6 +99,12 @@ const MainTitle = styled.h2`
 const Desc = styled.span`
   font-size: 24px;
   font-weight: 800;
+      max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
   color: ${styledMap(toggleColorMainText)};
 `;
 
