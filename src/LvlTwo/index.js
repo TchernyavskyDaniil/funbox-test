@@ -84,6 +84,7 @@ const Cards = styled.ul`
 
 const CardContainer = styled.li`
   list-style: none;
+  min-height: 550px;
 
   @media screen and (max-width: 1024px) {
     margin-right: 20px;

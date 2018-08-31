@@ -4,3 +4,5 @@
 
 * `npm install` || `yarn`
 * `npm start` || `yarn start`
+
+Level I без адаптива (!)

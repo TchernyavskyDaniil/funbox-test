@@ -44,6 +44,8 @@ const ToLvl = styled(Link)`
   padding: 10px 20px;
   margin: 0 10px;
   border: 1px solid transparent;
+  font-size: 14px;
+
   &:hover {
     border: 1px solid #4fc08d;
     background-color: white;
