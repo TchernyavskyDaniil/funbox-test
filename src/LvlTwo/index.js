@@ -69,6 +69,7 @@ const Cards = styled.ul`
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 0;
+  min-height: 520px;
 
   @media screen and (max-width: 1024px) {
     justify-content: center;

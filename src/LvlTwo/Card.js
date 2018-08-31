@@ -231,6 +231,14 @@ class Card extends Component {
     this.setState({ title: "Сказочное заморское яство", isHover: false });
   };
 
+  getPrice = price => {
+    if (price < 1) {
+      return String(price).replace(".", ",");
+    }
+
+    return price;
+  };
+
   setDeclensionsWords = count => {
     let totalResult;
     if (count > 1 && count < 5) {
@@ -299,10 +307,7 @@ class Card extends Component {
               </NameCard>
               <CardImg disable src={catImg} />
               <Price disable>
-                <PriceNumb>
-                  {" "}
-                  {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                </PriceNumb>
+                <PriceNumb> {this.getPrice(price)} </PriceNumb>
                 <PriceDesc> КГ </PriceDesc>
               </Price>
             </Main>
@@ -339,10 +344,7 @@ class Card extends Component {
               </NameCard>
               <CardImg src={catImg} />
               <Price active>
-                <PriceNumb>
-                  {" "}
-                  {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                </PriceNumb>
+                <PriceNumb> {this.getPrice(price)} </PriceNumb>
                 <PriceDesc> КГ </PriceDesc>
               </Price>
             </Main>
@@ -364,10 +366,7 @@ class Card extends Component {
               </NameCard>
               <CardImg src={catImg} />
               <Price>
-                <PriceNumb>
-                  {" "}
-                  {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                </PriceNumb>
+                <PriceNumb> {this.getPrice(price)} </PriceNumb>
                 <PriceDesc> КГ </PriceDesc>
               </Price>
             </Main>
