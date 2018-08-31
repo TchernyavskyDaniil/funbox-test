@@ -33,12 +33,12 @@ const Container = styled.div`
     content: "";
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
   }
-  
+
   @media screen and (max-width: 1024px) {
-    height: 100vh;
+    height: auto;
     position: relative;
   }
-  
+
   @media screen and (max-width: 710px) {
     height: 100%;
   }
