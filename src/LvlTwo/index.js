@@ -41,7 +41,7 @@ const Menu = styled.section`
   display: flex;
   flex-direction: column;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1200px) {
     width: 95%;
   }
 `;
@@ -96,7 +96,7 @@ class LvlTwo extends Component {
           mouses: 1,
           isGood: false,
           price: 0.5,
-          isActive: false,
+          isSelected: false,
           isDisabled: false,
           activeText: "Печень утки разварная с артишоками."
         },
@@ -107,7 +107,7 @@ class LvlTwo extends Component {
           mouses: 2,
           isGood: false,
           price: 2,
-          isActive: true,
+          isSelected: true,
           isDisabled: false,
           activeText: "Головы щучьи с чесноком да свежайшая семгушка."
         },
@@ -118,7 +118,7 @@ class LvlTwo extends Component {
           mouses: 5,
           isGood: true,
           price: 5,
-          isActive: false,
+          isSelected: false,
           isDisabled: true,
           activeText: "Печень утки разварная с артишоками."
         }
@@ -146,7 +146,7 @@ class LvlTwo extends Component {
                     mouses={card.mouses}
                     isGood={card.isGood}
                     price={card.price}
-                    isActive={card.isActive}
+                    isSelected={card.isSelected}
                     activeText={card.activeText}
                     isDisabled={card.isDisabled}
                   />

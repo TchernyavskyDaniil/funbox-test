@@ -22,26 +22,24 @@ const toggleColorMainText = {
   disable: "#b3b3b3"
 };
 
-const toggleHoverCard = {
-  default: "none",
+const toggleHoverColor = {
   hover: "#2ea8e6",
-  hoverActive: "#e62e7a"
+  hoverSelected: "#e62e7a",
+  noHover: "#b3b3b3"
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 480px;
-  cursor: pointer;
-  user-select: none;
-`;
+const toggleHoverBorder = {
+  hover: "4px solid #2ea8e6",
+  hoverSelected: "4px solid #e62e7a",
+  noHover: "4px solid #b3b3b3"
+};
 
 const Title = styled.p`
   font-size: 16px;
   color: ${styledMap({
     default: "#666666",
     disable: "#b3b3b3",
-    active: "#e62e7a"
+    activeSelected: "#e62e7a"
   })};
   line-height: 20px;
   background-color: white;
@@ -136,10 +134,6 @@ const Price = styled.div`
     disable: "#b3b3b3"
   })};
   color: white;
-
-  &:hover {
-    background-color: ${styledMap(toggleHoverCard)};
-  }
 `;
 
 const PriceNumb = styled.span`
@@ -179,22 +173,62 @@ const BtnBuy = styled.button`
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    ${Title} {
+      border-top: ${styledMap(toggleHoverBorder)};
+      border-right: ${styledMap(toggleHoverBorder)};
+
+      &:after {
+        border-left: ${styledMap(toggleHoverBorder)};
+      }
+    }
+
+    ${Main} {
+      border-bottom: ${styledMap(toggleHoverBorder)};
+      border-left: ${styledMap(toggleHoverBorder)};
+      border-right: ${styledMap(toggleHoverBorder)};
+    }
+
+    ${Price} {
+      background-color: ${styledMap(toggleHoverColor)};
+    }
+  }
+`;
+
 class Card extends Component {
   constructor() {
     super();
     this.state = {
-      isActive: null,
-      isHover: false
+      isSelected: null,
+      isHover: false,
+      title: "Сказочное заморское яство"
     };
   }
 
   componentWillMount() {
-    const { isActive } = this.props;
-    this.setState({ isActive, isHover: true });
+    const { isSelected } = this.props;
+    this.setState({ isSelected });
   }
 
   handleClickOutside = () => {
-    this.setState({ isHover: true });
+    this.setState({ isHover: false });
+  };
+
+  // set the text
+  onMouseover = () => {
+    this.setState({ title: "Котэ не одобряет?", isHover: true });
+  };
+
+  // clear the text
+  onMouseout = () => {
+    this.setState({ title: "Сказочное заморское яство", isHover: false });
   };
 
   setDeclensionsWords = count => {
@@ -223,8 +257,8 @@ class Card extends Component {
 
     if (!isDisabled) {
       this.setState(prevState => ({
-        isActive: !prevState.isActive,
-        isHover: false
+        isSelected: !prevState.isSelected,
+        isHover: true
       }));
     }
   };
@@ -239,116 +273,108 @@ class Card extends Component {
       activeText,
       isDisabled
     } = this.props;
-    const { isActive, isHover } = this.state;
+    const { isSelected, isHover, title } = this.state;
 
     return (
       <Wrapper>
-        <Container onClick={this.changeActiveState}>
-          {/* Если элемент имеет состояние дизейбл,
+        {/* Если элемент имеет состояние дизейбл,
           то отобразим определенный фрагмент,
           иначе "else if" с проверкой на активное состоение.
           То есть, проверка Disable -> Acitve -> Normal */}
-          {isDisabled ? (
-            <React.Fragment>
-              <Title disable> Сказочное заморское яство </Title>{" "}
-              <Main disable>
-                <NameCard>
-                  <MainTitle disable>Нямнушка</MainTitle>
-                  <Desc disable>с {name}</Desc>
-                  <Total disable>
-                    <Count>
-                      {" "}
-                      <b>{count}</b> порций
-                    </Count>
-                    {this.setDeclensionsWords(mouses)}
-                    {isGood ? <Review> заказчик доволен </Review> : null}
-                  </Total>
-                </NameCard>
-                <CardImg disable src={catImg} />
-                <Price disable>
-                  <PriceNumb>
+        {isDisabled ? (
+          <Container noHover>
+            <Title disable> Сказочное заморское яство </Title>{" "}
+            <Main disable>
+              <NameCard>
+                <MainTitle disable>Нямнушка</MainTitle>
+                <Desc disable>с {name}</Desc>
+                <Total disable>
+                  <Count>
                     {" "}
-                    {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                  </PriceNumb>
-                  <PriceDesc> КГ </PriceDesc>
-                </Price>
-              </Main>
-              <DescCard disable>Печалька, с курой закончился.</DescCard>
-            </React.Fragment>
-          ) : isActive ? (
-            <React.Fragment>
-              <Title active> Котэ не одобряет? </Title>
-              <Main active>
-                <NameCard>
-                  <MainTitle>Нямнушка</MainTitle>
-                  <Desc>с {name}</Desc>
-                  <Total>
-                    <Count>
-                      <b>{count}</b> порций
-                    </Count>
-                    {this.setDeclensionsWords(mouses)}
-                    {isGood ? <Review> заказчик доволен </Review> : null}
-                  </Total>
-                </NameCard>
-                <CardImg src={catImg} />
-                {isHover ? (
-                  <Price active hoverActive>
-                    <PriceNumb>
-                      {" "}
-                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                    </PriceNumb>
-                    <PriceDesc> КГ </PriceDesc>
-                  </Price>
-                ) : (
-                  <Price active>
-                    <PriceNumb>
-                      {" "}
-                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                    </PriceNumb>
-                    <PriceDesc> КГ </PriceDesc>
-                  </Price>
-                )}
-              </Main>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Title> Сказочное заморское яство </Title>
-              <Main>
-                <NameCard>
-                  <MainTitle>Нямнушка</MainTitle>
-                  <Desc>с {name}</Desc>
-                  <Total>
-                    <Count>
-                      <b>{count}</b> порций
-                    </Count>
-                    {this.setDeclensionsWords(mouses)}
-                    {isGood ? <Review> заказчик доволен </Review> : null}
-                  </Total>
-                </NameCard>
-                <CardImg src={catImg} />
-                {isHover ? (
-                  <Price hover>
-                    <PriceNumb>
-                      {" "}
-                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                    </PriceNumb>
-                    <PriceDesc> КГ </PriceDesc>
-                  </Price>
-                ) : (
-                  <Price>
-                    <PriceNumb>
-                      {" "}
-                      {price < 1 ? String(price).replace(".", ",") : price}{" "}
-                    </PriceNumb>
-                    <PriceDesc> КГ </PriceDesc>
-                  </Price>
-                )}
-              </Main>
-            </React.Fragment>
-          )}
-        </Container>
+                    <b>{count}</b> порций
+                  </Count>
+                  {this.setDeclensionsWords(mouses)}
+                  {isGood ? <Review> заказчик доволен </Review> : null}
+                </Total>
+              </NameCard>
+              <CardImg disable src={catImg} />
+              <Price disable>
+                <PriceNumb>
+                  {" "}
+                  {price < 1 ? String(price).replace(".", ",") : price}{" "}
+                </PriceNumb>
+                <PriceDesc> КГ </PriceDesc>
+              </Price>
+            </Main>
+          </Container>
+        ) : isSelected ? (
+          <Container
+            onClick={this.changeActiveState}
+            hoverSelected
+            onMouseEnter={this.onMouseover}
+            onMouseLeave={this.onMouseout}
+          >
+            {isHover ? (
+              <Title active activeSelected>
+                {" "}
+                {title}{" "}
+              </Title>
+            ) : (
+              <Title active default>
+                {" "}
+                {title}{" "}
+              </Title>
+            )}
+            <Main active>
+              <NameCard>
+                <MainTitle>Нямнушка</MainTitle>
+                <Desc>с {name}</Desc>
+                <Total>
+                  <Count>
+                    <b>{count}</b> порций
+                  </Count>
+                  {this.setDeclensionsWords(mouses)}
+                  {isGood ? <Review> заказчик доволен </Review> : null}
+                </Total>
+              </NameCard>
+              <CardImg src={catImg} />
+              <Price active>
+                <PriceNumb>
+                  {" "}
+                  {price < 1 ? String(price).replace(".", ",") : price}{" "}
+                </PriceNumb>
+                <PriceDesc> КГ </PriceDesc>
+              </Price>
+            </Main>
+          </Container>
+        ) : (
+          <Container onClick={this.changeActiveState} hover>
+            <Title> Сказочное заморское яство </Title>
+            <Main>
+              <NameCard>
+                <MainTitle>Нямнушка</MainTitle>
+                <Desc>с {name}</Desc>
+                <Total>
+                  <Count>
+                    <b>{count}</b> порций
+                  </Count>
+                  {this.setDeclensionsWords(mouses)}
+                  {isGood ? <Review> заказчик доволен </Review> : null}
+                </Total>
+              </NameCard>
+              <CardImg src={catImg} />
+              <Price>
+                <PriceNumb>
+                  {" "}
+                  {price < 1 ? String(price).replace(".", ",") : price}{" "}
+                </PriceNumb>
+                <PriceDesc> КГ </PriceDesc>
+              </Price>
+            </Main>
+          </Container>
+        )}
         {!isDisabled ? (
-          isActive ? (
+          isSelected ? (
             <DescCard>{activeText}</DescCard>
           ) : (
             <DescCard>
@@ -356,7 +382,9 @@ class Card extends Component {
               <BtnBuy onClick={this.changeActiveState}> купи </BtnBuy>
             </DescCard>
           )
-        ) : null}
+        ) : (
+          <DescCard disable>Печалька, с курой закончился.</DescCard>
+        )}
       </Wrapper>
     );
   }
